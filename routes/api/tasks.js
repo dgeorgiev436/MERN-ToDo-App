@@ -41,7 +41,7 @@ async(req,res) => {
 // @desc     Create a task
 // @access   Public
 router.put(`/:taskId`,
-check("title", "Please enter a title").notEmpty(),
+check(`title`, `Please enter a title`).notEmpty(),
 async(req,res) => {
 
 // Get errors from express-validator
@@ -50,7 +50,7 @@ async(req,res) => {
 // If errors are found return error status 400 with an array of the errors
     if(!errors.isEmpty()) {
         return res.status(400).json({errors: errors.array()});
-    }
+    };
 
 // Get data from the post body 
     const {title, created_at} = req.body;
@@ -66,7 +66,7 @@ async(req,res) => {
 // 2 - The updated document
 // 3 - A set of optional fields.
 // "new: true" returns the updated document after execution 
-        const task = await Task.findOneAndUpdate(
+        const updatedTask = await Task.findOneAndUpdate(
             {
                 objectId
             },
@@ -76,16 +76,36 @@ async(req,res) => {
             {
                 new: true
             }
-        )
+        );
 
-        res.json(task);
+        res.json(updatedTask);
 
     }catch(err){
 
-        // Return error message and status code 500 (Unexpected condition)
+// Return error message and status code 500 (Unexpected condition)
         console.error(err.message);
         res.status(500).send(`Server error`);
     }
+});
+
+// @route    DELETE api/tasks/:taskId
+// @desc     Delete a task
+// @access   Public
+router.delete("/:taskId", async(req,res) => {
+    try{
+        
+// Use the findOneAndUpdate MongoDB method
+        const deletedTask = await Task.findByIdAndDelete(req.params.taskId)
+// Return deleted task
+        res.json(deletedTask);
+
+    }catch(err){
+
+// Return error message and status code 500 (Unexpected condition)
+        console.error(err.message);
+        res.status(500).send(`Server error`);
+    }
+
 })
 
 module.exports = router;
