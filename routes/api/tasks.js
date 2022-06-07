@@ -37,8 +37,24 @@ async(req,res) => {
     }
 });
 
+// @route    GET api/tasks
+// @desc     Get all tasks
+// @access   Public
+router.get("/", async(req,res) => {
+
+    try{
+        // Get all tasks and sort by date created
+        const tasks = await Task.find().sort({created_at: -1});
+        // Return tasks
+        res.json(tasks);
+    }catch(err){
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+})
+
 // @route    POST api/tasks/:taskId
-// @desc     Create a task
+// @desc     Update a task
 // @access   Public
 router.put(`/:taskId`,
 check(`title`, `Please enter a title`).notEmpty(),
