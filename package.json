@@ -1,0 +1,14 @@
+{
+  "name": "vibrant-media-node-assesment",
+  "version": "1.0.0",
+  "description": "Node Assesment for Vibrant Media",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Denis Georgiev",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
