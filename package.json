@@ -1,13 +1,15 @@
 {
-  "type": "module",
   "name": "vibrant-media-node-assesment",
   "version": "1.0.0",
   "description": "Node Assesment for Vibrant Media",
   "main": "index.js",
   "scripts": {
-    "test": "jest --detectOpenHandles"
+    "start": "node server",
+    "test": "jest",
+    "server": "nodemon server",
+    "client": "npm start --prefix my-app",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-
   "author": "Denis Georgiev",
   "license": "ISC",
   "dependencies": {
@@ -18,6 +20,7 @@
     "mongoose": "^6.3.5"
   },
   "devDependencies": {
+    "concurrently": "^7.2.1",
     "jest": "^28.1.1",
     "nodemon": "^2.0.16",
     "supertest": "^6.2.3"
