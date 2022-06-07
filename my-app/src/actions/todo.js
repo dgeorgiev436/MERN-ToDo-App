@@ -1,5 +1,5 @@
 import axios from "axios"
-import {ADD_TODO, REMOVE_TODO} from "./types"
+import {ADD_TODO, GET_ALL_TODOS, GET_ALL_TODOS_ERROR, ADD_TODO_ERROR, DELETE_TODO_ERROR, DELETE_TODO} from "./types"
 
 
 
@@ -51,5 +51,26 @@ export const addTodo = (title) => async dispatch => {
             type: ADD_TODO_ERROR
         });
 
+    }
+}
+
+// Delete Todo
+export const deleteTodo = (id) => async dispatch => {
+
+    try{
+        // Send delete request and delete Todo based on ID
+        await axios.delete(`/api/tasks/${id}`);
+
+        dispatch({
+            type: DELETE_TODO,
+            payload: id
+        })
+
+    }catch(err){
+
+
+        dispatch({
+			type: DELETE_TODO_ERROR
+		})
     }
 }
