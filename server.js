@@ -13,7 +13,10 @@ connectDB();
 // It puts the parsed data in req.body
 app.use(express.json());
 
+
 // Defining routes
+app.use('/api/tasks', require('./routes/api/tasks'));
+
 
 app.get(`/`, (req,res) => {
     res.send("HELLO")
