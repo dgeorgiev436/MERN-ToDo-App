@@ -19,12 +19,15 @@ const TodoItem = ({title, id, deleteTodo, dateCreated, completeTodo, uncompleteT
             uncompleteTodo(id);
         }
     }
-
+    
+    const checked = completed ? "checked" : "unchecked";
 
     return(
         <li>
             <h2>{title}</h2>
-            <input type="checkbox" form="form" onChange={onChangeStatusHandler}/>
+            <label htmlFor="completedCheckBox"> Todo Completed </label>
+            <input id="completedCheckBox" type="checkbox" form="form" checked={checked}  onChange={onChangeStatusHandler}/>
+            <br></br>
             <button onClick={deleteTodoHandler}>Delete Todo</button>
             <TodoDate completed={completed} completedAt={completedAt} dateCreated={dateCreated}></TodoDate>
         </li>

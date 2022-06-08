@@ -3,6 +3,7 @@ const router = express.Router();
 const Task = require("../../models/Task");
 const { check, validationResult } = require('express-validator');
 const mongoose = require('mongoose');
+const { query } = require("express");
 
 // @route    POST api/tasks
 // @desc     Create a task
@@ -198,6 +199,26 @@ router.put(`/:taskId/uncomplete`, async(req,res) => {
     }
 });
 
+// @route    GET api/tasks/filter
+// @desc     Get task based on filter
+// @access   Public
+router.get("/filter", async(req,res) => {
+
+    try{
+
+        const task = await Task.find({completed: true } );
+
+        res.json(task);
+
+
+    }catch(err){
+
+        // Return error message and status code 500 (Unexpected condition)
+        console.error(err.message);
+        res.status(500).send(`Server error`);
+
+    }
+})
 
 
 
