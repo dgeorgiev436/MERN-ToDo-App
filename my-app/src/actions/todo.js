@@ -1,5 +1,5 @@
 import axios from "axios"
-import {ADD_TODO, GET_ALL_TODOS, GET_ALL_TODOS_ERROR, ADD_TODO_ERROR, DELETE_TODO_ERROR, DELETE_TODO, UPDATE_TODO_STATUS, UPDATE_TODO_STATUS_ERROR} from "./types"
+import {ADD_TODO, GET_ALL_TODOS, GET_ALL_TODOS_ERROR, ADD_TODO_ERROR, DELETE_TODO_ERROR, DELETE_TODO, COMPLETE_TODO, COMPLETE_TODO_ERROR, UNCOMPLETE_TODO, UNCOMPLETE_TODO_ERROR} from "./types"
 
 
 
@@ -75,22 +75,45 @@ export const deleteTodo = (id) => async dispatch => {
     }
 }
 
-// Update Todo Status
-export const updateStatus = (id) => async dispatch => {
+// Complete Todo
+export const completeTodo = (id) => async dispatch => {
 
     try{
 
-        await axios.put(`/api/tasks/${id}/status`);
+        await axios.put(`/api/tasks/${id}/complete`);
 
         dispatch({
-            type: UPDATE_TODO_STATUS,
+            type: COMPLETE_TODO,
             payload: id
         })
 
     }catch(err){
 
         dispatch({
-            type: UPDATE_TODO_STATUS_ERROR,
+            type: COMPLETE_TODO_ERROR,
+        })
+        console.log(err);
+
+    }
+}
+
+
+// Uncomplete Todo
+export const uncompleteTodo = (id) => async dispatch => {
+
+    try{
+
+        await axios.put(`/api/tasks/${id}/uncomplete`);
+
+        dispatch({
+            type: UNCOMPLETE_TODO,
+            payload: id
+        })
+
+    }catch(err){
+
+        dispatch({
+            type: UNCOMPLETE_TODO_ERROR,
         })
         console.log(err);
 

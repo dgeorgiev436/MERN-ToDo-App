@@ -124,36 +124,32 @@ router.delete("/:taskId", async(req,res) => {
 
 });
 
-// @route    PUT api/tasks/:taskId/status
-// @desc     Update a task
+// @route    PUT api/tasks/:taskId/complete
+// @desc     Compelte a task
 // @access   Public
-
-router.put(`/:taskId/status`, async(req,res) => {
+router.put(`/:taskId/complete`, async(req,res) => {
 
     const objectId = mongoose.Types.ObjectId(req.params.taskId);
 
     try{
 
-        // Find task by ID
-        const task = await Task.findById(req.params.taskId)
-        // Use the updateOne MongoDB method
-        // It takes three arguments
-        // 1 - Filter criteria
-        // 2 - The updated document
-        // 3 - A set of optional fields.
-        // "new: true" returns the updated document after execution 
-        // const updatedTask = {...task, completed: !task.completed}
-        const updatedTask = await Task.updateOne(
+        const completedTask = await Task.findOneAndUpdate(
             {
-                _id: objectId
+                // Filter
+                objectId
             },
             {
-                $set: {"completed": !task.completed}
+                // Update
+                $set: {"completed": true, "completed_at": Date.now()}
+            },
+            {
+                // Return updated document
+                new: true
             }
         );
 
-        // Return Updated Task
-        res.json(task);
+        // Send JSON
+        res.json(completedTask);
 
     }catch(err){
 
@@ -162,5 +158,47 @@ router.put(`/:taskId/status`, async(req,res) => {
          res.status(500).send(`Server error`);
     }
 })
+
+// @route    PUT api/tasks/:taskId/uncomplete
+// @desc     Compelte a task
+// @access   Public
+router.put(`/:taskId/uncomplete`, async(req,res) => {
+
+
+    const objectId = mongoose.Types.ObjectId(req.params.taskId);
+
+    try{
+ 
+        const uncompleteTask = await Task.findOneAndUpdate(
+            {
+                // Filter
+                objectId
+            },
+            {
+                // Update
+                $set: {"completed": false, "completed_at": null}
+            },
+            {
+                // Return updated document
+                new: true
+            }
+        );
+
+        // Return JSON
+        res.json(uncompleteTask);
+
+
+
+    }catch(err){
+
+
+        // Return error message and status code 500 (Unexpected condition)
+        console.error(err.message);
+        res.status(500).send(`Server error`);
+    }
+})
+
+
+
 
 module.exports = router;

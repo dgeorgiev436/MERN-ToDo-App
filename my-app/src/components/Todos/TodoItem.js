@@ -1,38 +1,41 @@
 import classes from "./TodoItem.module.css"
-import {deleteTodo} from "../../actions/todo"
 import {connect} from "react-redux"
 import PropTypes from "prop-types"
 import TodoDate from "./TodoDate"
-import {updateStatus} from "../../actions/todo"
+import {completeTodo, uncompleteTodo, deleteTodo} from "../../actions/todo"
 
 
-const TodoItem = ({title, id, deleteTodo, dateCreated, updateStatus}) => {
+const TodoItem = ({title, id, deleteTodo, dateCreated, completeTodo, uncompleteTodo, completed, completedAt}) => {
 
     const deleteTodoHandler = () => {
         deleteTodo(id)
     }
     
-    const onChangeStatusHandler = () => {
+    const onChangeStatusHandler = (e) => {
 
-        updateStatus(id);
+        if(e.target.checked){
+            completeTodo(id);
+        }else{
+            uncompleteTodo(id);
+        }
     }
 
 
     return(
         <li>
+            <h2>{title}</h2>
             <input type="checkbox" form="form" onChange={onChangeStatusHandler}/>
             <button onClick={deleteTodoHandler}>Delete Todo</button>
-            <TodoDate dateCreated={dateCreated}></TodoDate>
-            <div className={classes.expenseItem}>
-                <h2>{title}</h2>
-            </div>
+            <TodoDate completed={completed} completedAt={completedAt} dateCreated={dateCreated}></TodoDate>
         </li>
     )
 }
 
 // Set types
 TodoItem.propTypes = {
-    deleteTodo: PropTypes.func.isRequired
+    deleteTodo: PropTypes.func.isRequired,
+    completeTodo: PropTypes.func.isRequired,
+    uncompleteTodo: PropTypes.func.isRequired
 }
 
-export default connect(null,{deleteTodo, updateStatus})(TodoItem);
+export default connect(null,{deleteTodo, completeTodo, uncompleteTodo})(TodoItem);

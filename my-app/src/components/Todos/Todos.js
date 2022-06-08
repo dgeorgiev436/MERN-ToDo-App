@@ -21,7 +21,16 @@ const AddTodo = ({getTodos, todoState: {todos}}) => {
         <div>
             <h1>All Todos</h1>
             <ul>
-                {todos && todos.map(todo => <TodoItem key={todo._id} id={todo._id} dateCreated={todo.created_at} title={todo.title}>{todo.title}</TodoItem>)}
+                {todos && todos.map(todo => 
+                    <TodoItem 
+                        key={todo._id} 
+                        id={todo._id} 
+                        dateCreated={todo.created_at} 
+                        title={todo.title} 
+                        completed={todo.completed} 
+                        completedAt={todo.completed_at}>
+                    </TodoItem>
+                )}
             </ul>
         </div>
     )

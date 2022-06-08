@@ -11,9 +11,10 @@ const AddTodo = ({addTodo}) => {
     }, [])
 
     return(
-        <div>
-            adsasddsadsa
-        </div>
+        <form>
+            <input type="text" placeholder="Enter title"/>
+            <button>Submit</button>
+        </form>
     )
 }
 
