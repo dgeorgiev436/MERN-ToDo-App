@@ -53,7 +53,7 @@ router.get("/", async(req,res) => {
     }
 })
 
-// @route    POST api/tasks/:taskId
+// @route    PUT api/tasks/:taskId
 // @desc     Update a task
 // @access   Public
 router.put(`/:taskId`,
@@ -122,6 +122,45 @@ router.delete("/:taskId", async(req,res) => {
         res.status(500).send(`Server error`);
     }
 
+});
+
+// @route    PUT api/tasks/:taskId/status
+// @desc     Update a task
+// @access   Public
+
+router.put(`/:taskId/status`, async(req,res) => {
+
+    const objectId = mongoose.Types.ObjectId(req.params.taskId);
+
+    try{
+
+        // Find task by ID
+        const task = await Task.findById(req.params.taskId)
+        // Use the updateOne MongoDB method
+        // It takes three arguments
+        // 1 - Filter criteria
+        // 2 - The updated document
+        // 3 - A set of optional fields.
+        // "new: true" returns the updated document after execution 
+        // const updatedTask = {...task, completed: !task.completed}
+        const updatedTask = await Task.updateOne(
+            {
+                _id: objectId
+            },
+            {
+                $set: {"completed": !task.completed}
+            }
+        );
+
+        // Return Updated Task
+        res.json(task);
+
+    }catch(err){
+
+         // Return error message and status code 500 (Unexpected condition)
+         console.error(err.message);
+         res.status(500).send(`Server error`);
+    }
 })
 
 module.exports = router;

@@ -1,5 +1,5 @@
 import axios from "axios"
-import {ADD_TODO, GET_ALL_TODOS, GET_ALL_TODOS_ERROR, ADD_TODO_ERROR, DELETE_TODO_ERROR, DELETE_TODO} from "./types"
+import {ADD_TODO, GET_ALL_TODOS, GET_ALL_TODOS_ERROR, ADD_TODO_ERROR, DELETE_TODO_ERROR, DELETE_TODO, UPDATE_TODO_STATUS, UPDATE_TODO_STATUS_ERROR} from "./types"
 
 
 
@@ -72,5 +72,27 @@ export const deleteTodo = (id) => async dispatch => {
         dispatch({
 			type: DELETE_TODO_ERROR
 		})
+    }
+}
+
+// Update Todo Status
+export const updateStatus = (id) => async dispatch => {
+
+    try{
+
+        await axios.put(`/api/tasks/${id}/status`);
+
+        dispatch({
+            type: UPDATE_TODO_STATUS,
+            payload: id
+        })
+
+    }catch(err){
+
+        dispatch({
+            type: UPDATE_TODO_STATUS_ERROR,
+        })
+        console.log(err);
+
     }
 }
