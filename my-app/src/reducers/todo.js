@@ -1,4 +1,4 @@
-import {REMOVE_TODO, GET_ALL_TODOS, GET_ALL_TODOS_ERROR, DELETE_TODO, COMPLETE_TODO, COMPLETE_TODO_ERROR, UNCOMPLETE_TODO, UNCOMPLETE_TODO_ERROR} from "../actions/types"
+import {REMOVE_TODO, ADD_TODO, GET_ALL_TODOS, GET_ALL_TODOS_ERROR, DELETE_TODO, COMPLETE_TODO, COMPLETE_TODO_ERROR, UNCOMPLETE_TODO, UNCOMPLETE_TODO_ERROR} from "../actions/types"
 
 const initialState = {
     loading: true,
@@ -12,6 +12,8 @@ export default function(state = initialState, action){
     switch(type){
         case GET_ALL_TODOS:
             return {...state, loading: false, todos: payload}
+        case ADD_TODO:
+            return {...state, loading: false, todos: [payload, ...state.todos]}
         case COMPLETE_TODO:
             return {...state, loading: false, todos: state.todos.map((todo) => { 
                 if(todo._id === payload){

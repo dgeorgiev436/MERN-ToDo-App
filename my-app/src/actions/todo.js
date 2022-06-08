@@ -43,7 +43,8 @@ export const addTodo = (title) => async dispatch => {
 
         // Dispatch 
         dispatch({
-            type: ADD_TODO
+            type: ADD_TODO,
+            payload: res.data
         })
     }catch(err){
 

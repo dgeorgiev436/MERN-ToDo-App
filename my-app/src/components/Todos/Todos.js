@@ -1,15 +1,26 @@
-import React, {useEffect} from "react"
+import React, {useEffect, useState} from "react"
 import classes from "./Todos.module.css"
 import {connect} from "react-redux"
 import PropTypes from "prop-types"
 import {getTodos} from "../../actions/todo"
 import TodoItem from "./TodoItem"
+import AddTodo from "../TodoForm/AddTodo"
 
-const AddTodo = ({getTodos, todoState: {todos}}) => {
+const Todos = ({getTodos, todoState: {todos}}) => {
+
+    const [isForm, setIsForm] = useState(false)
 
     useEffect(() => {
         getTodos();
     }, [getTodos])
+
+    const showFormHandler = () => {
+
+        setIsForm(() => {
+           return !isForm
+        })
+
+    }
 
 
     // If there are no todos, return no expenses message
@@ -19,6 +30,8 @@ const AddTodo = ({getTodos, todoState: {todos}}) => {
 
     return(
         <div>
+            <button onClick={showFormHandler}>{isForm ? "Hide form" : "Add Todo"}</button>
+            { isForm && <AddTodo />}
             <h1>All Todos</h1>
             <ul>
                 {todos && todos.map(todo => 
@@ -46,4 +59,4 @@ AddTodo.propTypes = {
     todoState: PropTypes.object.isRequired
 }
 
-export default connect(mapStateToProps, {getTodos})(AddTodo);
+export default connect(mapStateToProps, {getTodos})(Todos);
