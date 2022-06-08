@@ -24,15 +24,17 @@ const Todos = ({getTodos, todoState: {todos}}) => {
 
 
     // If there are no todos, return no expenses message
-    if(!todos || todos.length === 0){
-        return <h2>No Expenses Found</h2>
-    }
+    // if(!todos || todos.length === 0){
+    //     return <h2>No Expenses Found</h2>
+    // }
+
+    const h1Message = todos != null && todos.length > 0 ? "All todos" : "No todos found"
 
     return(
         <div>
             <button onClick={showFormHandler}>{isForm ? "Hide form" : "Add Todo"}</button>
             { isForm && <AddTodo />}
-            <h1>All Todos</h1>
+            <h1>{h1Message}</h1>
             <ul>
                 {todos && todos.map(todo => 
                     <TodoItem 
